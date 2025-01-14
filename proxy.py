@@ -53,8 +53,17 @@ if __name__ == "__main__":
 
     proxies_list = read_proxies(proxy_file)
 
-    for proxy in proxies_list:
-        check_and_save_proxy(proxy, output_file)
+    # Số lượng luồng tối đa
+    max_threads = 10
+    batch_size = 20
+
+    # Tạo ThreadPoolExecutor
+    with ThreadPoolExecutor(max_threads) as executor:
+        for i in range(0, len(proxies_list), batch_size):
+            # Chia danh sách proxy thành từng nhóm batch_size
+            batch = proxies_list[i:i + batch_size]
+            # Gửi từng proxy vào ThreadPoolExecutor để xử lý
+            executor.map(lambda proxy: check_and_save_proxy(proxy, output_file), batch)
 
     print(f"\nKiểm tra hoàn tất. Proxy hoạt động được lưu trong file: {output_file}")
 
