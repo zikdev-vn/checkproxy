@@ -1,7 +1,7 @@
 import requests
 import time
 import os
-
+from concurrent.futures import ThreadPoolExecutor
 # URL của file chứa danh sách proxy
 proxy_url = "https://raw.githubusercontent.com/proxifly/free-proxy-list/main/proxies/all/data.txt"
 
